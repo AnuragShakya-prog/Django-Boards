@@ -1,0 +1,75 @@
+
+{%extends 'base.html'%}
+
+{%block breadcrumb%}
+     <li class="breadcrumb-item">   <a href="/">Boards</a></li>
+      <li class="breadcrumb-item">{{ board.name }}</li>
+      <li class="breadcrumb-item active">New Topic</li>
+{%endblock%}
+
+{%block content%}
+{%load widget_tweaks%}
+
+<form method="POST">
+    {%csrf_token%}
+    <!-- <div class="form-group">
+      <label for="exampleFormControlInput1">Subject</label>
+      <input type="text" class="form-control" id="subject" name="subject">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Message</label>
+      <textarea class="form-control" id='message' style="height: 233px;" id="exampleFormControlTextarea1" rows="3" name="message"></textarea>
+    </div> -->
+    
+    {%for field in form%}
+    <div class="form-group">
+      {{field.label_tag}}
+      {%if form.is_bound%}
+        {%if field.errors%}
+          {%render_field field class='form-control is-invalid'%}
+          {%for error in field.errors%}
+            <small class="invalid-feedback">
+              {{error}}
+            </small>
+          {%endfor%}
+        {%else%}
+          {%render_field field class='form-control'%}
+        {%endif%}
+
+      {%else%}
+          {%render_field field class='form-control'%}
+      {%endif%}
+    </div>
+    
+  {%endfor%}
+    <button class="btn btn-primary" id='subbtn' type="submit">Post</button>
+  </form>
+  {%block script%}
+ 
+<script>
+
+$(function(){
+  
+  $("#id_subject,#id_message").addClass('form-control');
+  $("#subbtn").click(function (event){
+    
+    let subValue=$("#id_subject").val().replace(/\s+/g,' ');
+    let mesValue=$("#id_message").val().replace(/\s+/g,' ');
+
+    if ((subValue==' ')  & (mesValue==' ')){
+      
+      console.log("Preventing Default");
+
+      event.preventDefault();
+    }
+
+    if ((subValue=='') & (mesValue=='')){
+      console.log("Preventing Default");
+      event.preventDefault();
+    }
+  })
+  
+});
+</script>
+{%endblock%}
+{%endblock%}

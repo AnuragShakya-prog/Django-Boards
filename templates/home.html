@@ -1,0 +1,52 @@
+{%extends 'base.html'%}
+{%block breadcrumb%}
+    <li class="breadcrumb-item active">Boards</li>
+{%endblock%}
+
+{%block content%}
+<table class="table">
+        <thead class="thead-inverse">
+          <tr style="background-color: #2b2929;color: #bbb;"> 
+            <th>Board</th>
+            <th>Posts</th>
+            <th>Topics</th>
+            <th>Last Post</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for board in boards %}
+            <tr>
+              <td>
+                <a href="board/{{forloop.counter}}/">{{ board.name }}</a> 
+               <small class="text-muted d-block">{{ board.description }}</small>
+              </td>
+              <td class="align-middle">{{board.get_post_count}}</td>
+              <td class="align-middle">{{board.topics.count}}</td>
+              <td>
+                {%with post_count=board.get_post_count%}
+
+              
+                {%with post=board.get_last_post%}
+                {%if post_count != 0 %}  
+                <a href="/board/{{board.pk}}/topic/{{post.topic.pk}}/" style="text-decoration: none; color:#4082a2;font-size: 1.2em;">
+                  <small>
+                    
+                    By {{post.created_by}} at {{post.created_at}}
+
+                  </small>
+                </a>
+                {%else%}
+                <small class="text-muted">
+                  <em>No posts yet.</em>
+                </small>
+                {%endif%}
+
+                {%endwith%}
+                {%endwith%}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+{%endblock%}

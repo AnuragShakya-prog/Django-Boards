@@ -1,0 +1,73 @@
+
+{%extends 'base.html'%}
+
+{%block breadcrumb%}
+     <li class="breadcrumb-item">   <a href="/">Boards</a></li>
+      <li class="breadcrumb-item active" >{{ board.name }}</li>
+{%endblock%}
+
+  
+{%block content%}
+{%load humanize%}
+{% if not_found %}
+        <div class="container error">
+          <h4>No topics</h4>
+        </div>
+    {%else%}
+    
+    <div class="container">
+    
+    <div class="mb-4">
+      <a href="{% url 'new_topic' board.pk %}" class="btn btn-primary">New topic</a>
+    </div>
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr style="background-color: #2b2929;color: #bbb;"> 
+            <th>Topic</th>
+            <th>Starter</th>
+            <th>Views</th>
+            <th>Replies</th>
+            <th>Last Updated</th>
+            <!-- <th>Last Post</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for topic in topics %}
+            <tr style="background-color: #333333bd;">
+              <td>
+                <a href="topic/{{topic.pk}}/" style="font-weight: 586;color: #fff;">{{ topic.subject }}</a> 
+               <!-- <small class="text-muted d-block">{{ topic.description }}</small> -->
+              </td>
+              <td class="align-middle" style="font-weight: 700;text-transform: capitalize;color: #fff;">{{topic.starter.username}}</td>
+              <td class="align-middle" style="font-weight:505;color: #fff;">{{topic.get_views_count}}</td>
+              <td class="align-middle" style="font-weight:505;color: #fff;">{{topic.replies}}</td>
+              <td class="align-middle" style="font-weight:505;color: #fff;">{{topic.last_updated|naturaltime}}</td>
+        
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {%endif%}
+    </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {%if topics.has_previous%}
+          <li class="page-item"><a class="page-link" href="?page={{topics.previous_page_number}}">Previous</a></li>
+        {%else%}
+          <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        {%endif%}
+        {%for num in page_range%}
+        <li class="page-item {%if topics.number == num %}active{%endif%}"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+        {%endfor%}
+        {%if topics.has_next%}
+        <li class="page-item"><a class="page-link" href="?page={{topics.next_page_number}}">Next</a></li>
+        {%else%}
+        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+
+        {%endif%}
+
+      </ul>
+    </nav>
+
+{%endblock%}
