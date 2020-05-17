@@ -8,7 +8,13 @@
 
   
 {%block content%}
-{%load humanize%}
+{%load humanize%}    
+
+<div class="mb-4">
+  <a href="/board/{{board.pk}}/new" class="btn btn-primary">New topic</a>
+</div>
+
+
 {% if not_found %}
         <div class="container error">
           <h4>No topics</h4>
@@ -16,10 +22,6 @@
     {%else%}
     
     <div class="container">
-    
-    <div class="mb-4">
-      <a href="{% url 'new_topic' board.pk %}" class="btn btn-primary">New topic</a>
-    </div>
       <table class="table">
         <thead class="thead-inverse">
           <tr style="background-color: #2b2929;color: #bbb;"> 
@@ -49,6 +51,9 @@
       </table>
     {%endif%}
     </div>
+    {% if not_found %}
+
+    {%else%}
 
     <nav aria-label="Page navigation example">
       <ul class="pagination">
@@ -69,5 +74,6 @@
 
       </ul>
     </nav>
+    {%endif%}
 
 {%endblock%}

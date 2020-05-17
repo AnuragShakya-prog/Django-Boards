@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.urls import reverse_lazy
+from django.shortcuts import reverse
 # Create your views here.
 
 
@@ -44,7 +45,7 @@ def board_topics(request,pk):
 
 
     if not list(topics):
-        return render(request,'topics.html',{"not_found":True})
+        return render(request,'topics.html',{"not_found":True,"board":board})
     return render(request,'topics.html',{"board":board,"topics":topics,'page_range':page_range})
 
 
@@ -67,7 +68,7 @@ def new_topic(request,pk):
                 topic=topic
             )
 
-            return redirect('topic_posts',pk=pk,topic_pk=topic.pk)
+            return redirect(f"/board/{pk}/topic/{topic.pk}/")
     else:
         topic_form=TopicForm()
 
