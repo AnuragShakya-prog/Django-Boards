@@ -56,7 +56,7 @@ ipywidgets==7.5.1
 isort==4.3.21
 jaraco.itertools==4.4.2
 jedi==0.15.2
-Jinja2==2.10.3
+Jinja2==2.11.3
 joblib==0.14.1
 jsonschema==2.6.0
 jupyter==1.0.0
